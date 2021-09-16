@@ -5,7 +5,6 @@
 module Data.Aeson.TH.Lift () where
 
 import qualified Data.HashMap.Lazy          as HM
-import qualified Data.Scientific            as S
 import qualified Data.Vector                as V
 import           Language.Haskell.TH.Syntax (Lift (..))
 
@@ -19,9 +18,3 @@ instance (Lift k, Lift v) => Lift (HM.HashMap k v) where
 
 instance (Lift a) => Lift (V.Vector a) where
   lift vec = [| V.fromList $(lift (V.toList vec)) |]
-
-instance Lift S.Scientific where
-  lift s =
-    let c = S.coefficient s
-        e = S.base10Exponent s
-    in [| S.scientific c e |]

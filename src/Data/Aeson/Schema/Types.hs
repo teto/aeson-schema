@@ -58,7 +58,7 @@ instance Lift Pattern where
   lift (Pattern src _) = [| let Right p = mkPattern src in p |]
 
 -- | Compile a regex to a pattern, reporting errors with fail
-mkPattern :: (Monad m) => Text -> m Pattern
+mkPattern :: (Monad m, MonadFail m) => Text -> m Pattern
 mkPattern t = liftM (Pattern t) $ makeRegexM (unpack t)
 
 -- | Primitive JSON types
